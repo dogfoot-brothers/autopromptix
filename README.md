@@ -1,56 +1,44 @@
 # AutoPromptix
 
-**Automated Prompt Testing and Improvement Tool**
+**Enhanced Automated Prompt Testing and Improvement Tool**
 
-AutoPromptix is a comprehensive web-based server for testing and improving AI prompts automatically. It provides a decorator-based system for marking functions for testing and includes a web dashboard for monitoring and managing prompt improvements.
+AutoPromptix is a comprehensive web-based server for testing and improving AI prompts automatically. It provides an enhanced decorator-based system for marking functions for testing and includes a beautiful web dashboard for monitoring and managing prompt improvements.
 
-## Features
+## ✨ Features
 
 - 🔄 **Automated Testing**: Run tests with different prompt configurations
 - 📊 **Prompt Analysis**: Parse and analyze system prompts for quality metrics
 - 🚀 **Prompt Improvement**: Automatically improve prompts based on test results
 - 📈 **Performance Tracking**: Track prompt performance over time
-- 🌐 **Web Dashboard**: Beautiful web interface for monitoring and management
+- 🌐 **Enhanced Web Dashboard**: Beautiful web interface with real-time editing
 - 💾 **Local Storage**: Save knowledge, chat history, and improvement history locally
-- 🔧 **Decorator-Based**: Easy integration with existing code using decorators
+- 🔧 **Enhanced Decorator-Based**: Easy integration with existing code using simplified decorators
+- 🎯 **A/B Testing**: Compare different prompt variants
+- 📝 **Real-time Prompt Editing**: Edit prompts directly in the web interface
+- 🎨 **Modern UI**: Beautiful, responsive design with real-time updates
 
-## Installation
+## 🚀 Quick Start
 
-```bash
-pip install autopromptix
-```
-
-Or install from source:
-
-```bash
-git clone https://github.com/autopromptix/autopromptix.git
-cd autopromptix
-pip install -e .
-```
-
-## Quick Start
-
-### 1. Add decorators to your functions
+### 1. Add enhanced decorators to your functions
 
 ```python
 import autopromptix
 import openai
 
-# Configure AutoPromptix
-autopromptix_settings = {
-    'host': '127.0.0.1',
-    'port': 8000,
-    'api_model': 'gpt-4o-mini',
-    'max_test_n': 10,
-    'prompt_modify_temperature': 10
-}
-
-@autopromptix.selftest
-@autopromptix.desiredoutput('/output.txt/@L31')
-@autopromptix.self_test_system_prompt
-@autopromptix.self_test_temperature
-@autopromptix.self_test_k
-@autopromptix.client('openai')
+# Using the new unified decorator
+@autopromptix.test(
+    expected_output='./output.txt/@L31',
+    test_types=['system_prompt', 'temperature'],
+    client='openai',
+    max_iterations=5,
+    target_score=0.85,
+    auto_improve=True,
+    prompt_variations=[
+        "You are a helpful assistant.",
+        "You are a friendly and helpful assistant.",
+        "You are a professional assistant."
+    ]
+)
 def greeting():
     response = openai.chat.completions.create(
         model="gpt-4o-mini",
@@ -60,14 +48,22 @@ def greeting():
         ]
     )
     return response.choices[0].message.content
+
+# Using auto_test for automatic prompt detection
+@autopromptix.auto_test
+def simple_greeting():
+    return "Hello, I'm doing well, thank you for asking!"
 ```
 
-### 2. Start the AutoPromptix server
+### 2. Start the Enhanced AutoPromptix server
 
 ```python
 import autopromptix
 
-# Start the server
+# Quick start
+autopromptix.quick_start(port=8000)
+
+# Or with custom settings
 autopromptix.start_server(
     host='127.0.0.1',
     port=8000,
@@ -76,70 +72,156 @@ autopromptix.start_server(
 )
 ```
 
-### 3. Access the web dashboard
+### 3. Access the enhanced web dashboard
 
-Open your browser and navigate to `http://127.0.0.1:8000` to access the AutoPromptix dashboard.
+Open your browser and navigate to `http://127.0.0.1:8000` to access the enhanced AutoPromptix dashboard.
 
-## Decorators
+## 🎯 Enhanced Decorators
 
-### @autopromptix.selftest
-Marks a function for automated testing. The function will be tested with various prompt configurations.
-
-### @autopromptix.desiredoutput(path)
-Specifies the expected output for testing. Can reference a file and specific line:
+### @autopromptix.test
+Unified decorator for comprehensive testing:
 ```python
-@autopromptix.desiredoutput('/output.txt/@L31')  # Line 31 of output.txt
-@autopromptix.desiredoutput('/expected.json')    # Entire file
+@autopromptix.test(
+    expected_output='./output.txt/@L31',
+    test_types=['system_prompt', 'temperature', 'top_k'],
+    client='openai',
+    max_iterations=10,
+    target_score=0.85,
+    auto_improve=True,
+    prompt_variations=[
+        "You are a helpful assistant.",
+        "You are a friendly assistant."
+    ]
+)
 ```
 
-### @autopromptix.self_test_system_prompt
-Enables system prompt testing with different prompt variations.
+### @autopromptix.auto_test
+Automatic prompt detection and testing:
+```python
+@autopromptix.auto_test
+def my_function():
+    # Prompts are automatically detected from source code
+    pass
+```
 
-### @autopromptix.self_test_temperature
-Tests the function with different temperature values to find optimal settings.
+### @autopromptix.test_config
+Configuration file-based testing:
+```python
+@autopromptix.test_config('configs/my_function.yaml')
+def my_function():
+    pass
+```
 
-### @autopromptix.self_test_k
-Tests the function with different top-k values for sampling.
+### @autopromptix.prompt_template
+Template-based prompt management:
+```python
+@autopromptix.prompt_template('templates/greeting.yaml')
+def greeting():
+    pass
+```
 
-### @autopromptix.client(client_type)
-Specifies the AI client type ('openai', 'anthropic', 'huggingface', etc.).
+### autopromptix.test_context
+Context manager for test configuration:
+```python
+with autopromptix.test_context(
+    expected_output='./output.txt/@L31',
+    test_types=['system_prompt'],
+    auto_improve=True
+):
+    @autopromptix.test
+    def my_function():
+        pass
+```
 
-## API Endpoints
+## 🌐 Enhanced Web Dashboard Features
 
-### Functions
+### Real-time Prompt Editor
+- Edit prompts directly in the web interface
+- Test prompts instantly
+- Save and version control prompts
+- Auto-improve prompts with AI
+
+### A/B Testing Interface
+- Compare multiple prompt variants
+- Visual results comparison
+- Statistical analysis
+- Winner declaration
+
+### Enhanced Visual Design
+- Modern, responsive UI
+- Real-time updates
+- Beautiful animations
+- Mobile-friendly design
+
+## 📁 Configuration Files
+
+### Function Configuration (configs/greeting.yaml)
+```yaml
+expected_output: './output.txt/@L31'
+test_types: ['system_prompt', 'temperature']
+client: 'openai'
+max_iterations: 5
+target_score: 0.85
+auto_improve: true
+prompt_variations:
+  - "You are a helpful assistant."
+  - "You are a friendly and helpful assistant."
+  - "You are a professional assistant."
+```
+
+### Prompt Template (templates/greeting.yaml)
+```yaml
+name: "Greeting Assistant"
+description: "A friendly greeting assistant"
+category: "conversation"
+
+base_prompt: |
+  You are a helpful assistant.
+  Your role is to provide friendly and helpful responses.
+
+variations:
+  - name: "Friendly"
+    prompt: |
+      You are a friendly and helpful assistant.
+      Always be warm and welcoming in your responses.
+    
+  - name: "Professional"
+    prompt: |
+      You are a professional and helpful assistant.
+      Provide clear, concise, and accurate responses.
+
+test_cases:
+  - input: "Hello, how are you?"
+    expected: "Hello, I'm doing well, thank you for asking! How can I help you today?"
+    weight: 1.0
+```
+
+## 🔧 API Endpoints
+
+### Enhanced Functions
 - `GET /api/functions` - List all registered functions
 - `GET /api/functions/{id}` - Get function details
 - `POST /api/functions/{id}/test` - Run a single test
 - `POST /api/functions/{id}/auto-test` - Run automated tests with improvements
+- `GET /api/functions/{id}/prompt-editor` - Get prompt editor interface
+- `POST /api/functions/{id}/prompt-editor` - Update prompt
+- `POST /api/functions/{id}/ab-test` - Run A/B test between variants
 
 ### Prompt Management
 - `POST /api/functions/{id}/analyze-prompt` - Analyze a prompt
 - `POST /api/functions/{id}/improve-prompt` - Improve a prompt
 
-### Results
+### Results & Monitoring
 - `GET /api/functions/{id}/results` - Get test results
 - `GET /api/functions/{id}/improvements` - Get improvement history
+- `GET /api/functions/{id}/test-status` - Get test status
 
 ### System
 - `GET /api/stats` - Get system statistics
 - `GET /api/settings` - Get/update settings
 - `GET /api/health` - Health check
 
-## Configuration
-
-AutoPromptix can be configured with the following settings:
-
-```python
-autopromptix_settings = {
-    'host': '127.0.0.1',           # Server host
-    'port': 8000,                  # Server port
-    'api_model': 'gpt-4o-mini',    # Default AI model
-    'max_test_n': 10,              # Maximum test iterations
-    'prompt_modify_temperature': 10 # Temperature for prompt modifications
-}
-```
-
-## Local Storage
+## 📊 Local Storage
 
 AutoPromptix stores data locally in the `autopromptix_data` directory:
 
@@ -148,10 +230,18 @@ AutoPromptix stores data locally in the `autopromptix_data` directory:
 - `improvements/` - Prompt improvement history
 - `autopromptix.db` - SQLite database with test results and metadata
 
-## Advanced Usage
+## 🚀 Advanced Usage
+
+### Quick Start Functions
+```python
+# Quick start with default settings
+autopromptix.quick_start(port=8000)
+
+# Start from configuration file
+autopromptix.start_from_config('config/autopromptix.yaml')
+```
 
 ### Manual Test Execution
-
 ```python
 from autopromptix import test_runner
 
@@ -167,7 +257,6 @@ print(f"Test score: {result.score}")
 ```
 
 ### Prompt Analysis
-
 ```python
 from autopromptix import prompt_improver
 
@@ -181,7 +270,6 @@ print(f"Issues: {analysis.potential_issues}")
 ```
 
 ### Automated Improvement
-
 ```python
 # Improve a prompt automatically
 improvement = prompt_improver.improve_prompt(
@@ -194,18 +282,18 @@ print(f"Improved prompt: {improvement.improved_prompt}")
 print(f"Reason: {improvement.improvement_reason}")
 ```
 
-## Requirements
+## 📋 Requirements
 
 - Python 3.7+
 - Flask 2.3.3+
 - OpenAI API key (if using OpenAI)
 - Modern web browser for dashboard
 
-## License
+## 📄 License
 
 MIT License - see LICENSE file for details.
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -213,13 +301,25 @@ MIT License - see LICENSE file for details.
 4. Add tests
 5. Submit a pull request
 
-## Support
+## 📞 Support
 
 For issues and questions:
 - GitHub Issues: https://github.com/autopromptix/autopromptix/issues
 - Documentation: https://autopromptix.readthedocs.io/
 
-## Changelog
+## 📝 Changelog
+
+### v0.2.0 (Enhanced)
+- ✨ Enhanced decorator system with unified API
+- 🎨 Beautiful, modern web dashboard
+- 📝 Real-time prompt editing
+- 🧪 A/B testing interface
+- 🚀 Auto-test decorator for automatic prompt detection
+- 📁 Configuration file support
+- 🎯 Context manager for test configuration
+- 📊 Enhanced visual design and UX
+- 🔧 Improved API endpoints
+- 📄 License changed to MIT
 
 ### v0.1.0
 - Initial release
