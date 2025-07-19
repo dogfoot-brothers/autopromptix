@@ -1,0 +1,2 @@
+[console_scripts]
+autopromptix = autopromptix.cli:main
