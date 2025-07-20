@@ -257,6 +257,69 @@ def _extract_prompts_from_source(source_code: str) -> List[str]:
     
     return list(set(prompts))  # Remove duplicates
 
+def autopromptix(
+    role: str = "assistant",
+    temperature: float = 0.7,
+    max_tokens: int = 100,
+    test_data_pool: Optional[str] = None,
+    **kwargs
+) -> Callable:
+    """
+    Main AutoPromptix decorator for function testing and improvement
+    
+    Args:
+        role: The role for the AI assistant
+        temperature: Temperature for AI responses
+        max_tokens: Maximum tokens for responses
+        test_data_pool: Name of test data pool to use
+        **kwargs: Additional configuration options
+    """
+    def decorator(func: Callable) -> Callable:
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            # Get function ID
+            func_id = f"{func.__module__}.{func.__name__}"
+            
+            # Initialize function in registry
+            if func_id not in _test_registry:
+                _test_registry[func_id] = {
+                    'function': func,
+                    'metadata': {},
+                    'test_results': []
+                }
+            
+            # Store metadata
+            metadata = _test_registry[func_id]['metadata']
+            metadata.update({
+                'role': role,
+                'temperature': temperature,
+                'max_tokens': max_tokens,
+                'test_data_pool': test_data_pool,
+                **kwargs
+            })
+            
+            # Execute function
+            result = func(*args, **kwargs)
+            
+            # Log execution
+            storage = _get_storage()
+            storage.log_execution(func_id, args, kwargs, result)
+            
+            return result
+        
+        # Store decorator info for introspection
+        wrapper._autopromptix = {
+            'role': role,
+            'temperature': temperature,
+            'max_tokens': max_tokens,
+            'test_data_pool': test_data_pool,
+            **kwargs
+        }
+        
+        return wrapper
+    
+    return decorator
+
 # Backward compatibility aliases
 selftest = test
 desiredoutput = lambda path: test(expected_output=path)

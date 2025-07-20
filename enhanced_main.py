@@ -1,101 +1,112 @@
-import autopromptix
-import openai
+#!/usr/bin/env python3
+"""
+Enhanced AutoPromptix Main Script with Simplified Test Data Pool Dashboard
+
+This script demonstrates the enhanced AutoPromptix system with:
+- Google Material Design dashboard
+- Test Data Pool integration
+- User-friendly interface with tooltips
+"""
+
 import os
-
-# Set OpenAI API key (you should set this in your environment)
-# os.environ['OPENAI_API_KEY'] = 'your-api-key-here'
-
-# Enhanced AutoPromptix settings
-autopromptix_settings = {
-    'host': '127.0.0.1',
-    'port': 8001,  # Changed from 8000 to 8001
-    'api_model': 'gpt-4o-mini',
-    'max_test_n': 10,
-    'prompt_modify_temperature': 10
-}
-
-# Using the new enhanced decorator
-@autopromptix.test(
-    expected_output='./output.txt/@L31',
-    test_types=['system_prompt', 'temperature'],
-    client='openai',
-    max_iterations=5,
-    target_score=0.85,
-    auto_improve=True,
-    prompt_variations=[
-        "You are a helpful assistant.",
-        "You are a friendly and helpful assistant.",
-        "You are a professional assistant.",
-        "You are a knowledgeable and helpful assistant."
-    ]
-)
-def greeting():
-    """A simple greeting function that uses OpenAI API"""
-    try:
-        response = openai.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "Hello, how are you?"}
-            ]
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        return f"Error: {str(e)}"
-
-# Example with auto_test decorator
-@autopromptix.auto_test
-def simple_greeting():
-    """Simple greeting without OpenAI API"""
-    return "Hello, I'm doing well, thank you for asking! How can I help you today?"
+import sys
+from autopromptix.enhanced_decorators import autopromptix
+from autopromptix.google_dashboard_server import GoogleStyleDashboardServer
+from autopromptix.test_data_pool import create_greeting_test_pool, TestDataPoolManager
 
 def main():
-    """Main function to start Enhanced AutoPromptix and run the greeting function"""
-    print("🚀 Starting Enhanced AutoPromptix...")
+    """Main function to run the enhanced AutoPromptix system"""
     
-    # Start the Enhanced AutoPromptix server
-    from autopromptix.enhanced_server import EnhancedAutoPromptixServer
+    print("🚀 Starting Enhanced AutoPromptix with Test Data Pool Dashboard")
+    print("=" * 60)
     
-    server = EnhancedAutoPromptixServer(
-        host=autopromptix_settings['host'],
-        port=autopromptix_settings['port'],
-        api_model=autopromptix_settings['api_model'],
-        max_test_n=autopromptix_settings['max_test_n'],
-        prompt_modify_temperature=autopromptix_settings['prompt_modify_temperature']
+    # Create sample test data pool
+    print("📦 Creating sample test data pool...")
+    greeting_pool = create_greeting_test_pool()
+    test_data_manager = TestDataPoolManager()
+    test_data_manager.create_pool(greeting_pool)
+    
+    # Initialize dashboard server
+    dashboard = GoogleStyleDashboardServer(
+        host='127.0.0.1',
+        port=8001
     )
     
-    server.start()
+    print(f"🚀 Dashboard Server running on http://{dashboard.host}:{dashboard.port}")
     
-    print(f"✨ Enhanced AutoPromptix server started at http://{autopromptix_settings['host']}:{autopromptix_settings['port']}")
-    print("🌐 Access the enhanced dashboard in your web browser!")
-    print("📝 Features:")
-    print("   - Real-time prompt editing")
-    print("   - A/B testing interface")
-    print("   - Enhanced visual design")
-    print("   - Improved usability")
+    print("🎨 Features:")
+    print("   • Material Design UI")
+    print("   • Test Data Pool management")
+    print("   • Interactive tooltips")
+    print("   • Real-time function monitoring")
     
-    # Run the greeting function to register it
-    print("\n🧪 Running greeting function...")
-    result = greeting()
-    print(f"Greeting result: {result}")
+    # Run sample tests
+    print("🧪 Running sample tests...")
     
-    # Run simple greeting
-    print("\n🧪 Running simple greeting...")
-    simple_result = simple_greeting()
-    print(f"Simple greeting result: {simple_result}")
+    print("1. Testing greeting function:")
+    result1 = greeting("Hello, how are you?")
+    print(f"   Input: Hello, how are you?")
+    print(f"   Output: {result1[:50]}...")
     
-    # The server will keep running in the background
-    print("\n🔄 Server is running. Press Ctrl+C to stop.")
+    print("2. Testing greeting with different input:")
+    result2 = greeting("Good morning!")
+    print(f"   Input: Good morning!")
+    print(f"   Output: {result2[:50]}...")
+    
+    # Display registered functions
+    print("📋 Registered Functions:")
+    print("   • greeting() - 인사 함수")
+    print("     - Test Data Pool: greeting_test_cases")
+    print("     - Hover for details in dashboard")
+    
+    print("=" * 60)
+    print("🎯 Dashboard Features:")
+    print("   • View functions with hover tooltips")
+    print("   • Manage Test Data Pools")
+    print("   • Create and edit test cases")
+    print("   • Real-time monitoring")
+    print("🌐 Open your browser and go to: http://127.0.0.1:8001")
+    print("⏹️  Press Ctrl+C to stop the server")
     
     try:
-        # Keep the main thread alive
-        import time
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("\n🛑 Stopping Enhanced AutoPromptix server...")
-        server.stop()
-        print("✅ Server stopped.")
+        # Start the dashboard server
+        dashboard.start()
+        
+        # Keep the server running
+        try:
+            while True:
+                import time
+                time.sleep(1)
+        except KeyboardInterrupt:
+            print("\n🛑 Stopping server...")
+            dashboard.stop()
+            print("✅ Server stopped")
+            
+    except Exception as e:
+        print(f"❌ Error starting server: {e}")
+        sys.exit(1)
+
+# Essential greeting function with autopromptix decorator and test data pool
+@autopromptix(
+    role="assistant",
+    temperature=0.7,
+    max_tokens=100,
+    test_data_pool="greeting"  # Connect to test data pool
+)
+def greeting(message: str) -> str:
+    """
+    Generate a friendly greeting response.
+    
+    Args:
+        message: The input message from the user
+        
+    Returns:
+        A friendly greeting response
+    """
+    if not message or message.strip() == "":
+        return "Hello! I didn't catch that. Could you please say something?"
+    
+    return f"Hello! I received your message: '{message}'. How can I help you today?"
 
 if __name__ == "__main__":
     main() 

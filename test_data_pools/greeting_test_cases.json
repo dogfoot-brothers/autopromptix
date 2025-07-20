@@ -1,0 +1,102 @@
+{
+  "function_name": "greeting",
+  "description": "Test data pool for greeting function with various input scenarios",
+  "category": "communication",
+  "test_cases": [
+    {
+      "id": "greeting_001",
+      "input": "Hello, how are you?",
+      "expected_output": "Hello! I'm doing well, thank you for asking. How can I help you today?",
+      "weight": 1.0,
+      "tags": [
+        "basic",
+        "greeting"
+      ],
+      "description": "Basic greeting test case"
+    },
+    {
+      "id": "greeting_002",
+      "input": "Good morning!",
+      "expected_output": "Good morning! I hope you're having a wonderful day. How can I assist you?",
+      "weight": 1.0,
+      "tags": [
+        "basic",
+        "greeting",
+        "morning"
+      ],
+      "description": "Morning greeting test case"
+    },
+    {
+      "id": "greeting_003",
+      "input": "Hi there!",
+      "expected_output": "Hi there! Nice to meet you. What can I help you with today?",
+      "weight": 1.0,
+      "tags": [
+        "basic",
+        "greeting",
+        "casual"
+      ],
+      "description": "Casual greeting test case"
+    }
+  ],
+  "edge_cases": [
+    {
+      "id": "greeting_edge_001",
+      "input": "",
+      "expected_output": "Hello! I didn't catch that. Could you please say something?",
+      "weight": 1.5,
+      "tags": [
+        "edge",
+        "empty"
+      ],
+      "description": "Empty input edge case"
+    },
+    {
+      "id": "greeting_edge_002",
+      "input": "   ",
+      "expected_output": "Hello! I didn't catch that. Could you please say something?",
+      "weight": 1.5,
+      "tags": [
+        "edge",
+        "whitespace"
+      ],
+      "description": "Whitespace only edge case"
+    }
+  ],
+  "negative_cases": [
+    {
+      "id": "greeting_neg_001",
+      "input": "12345",
+      "expected_output": "Hello! I received your message: '12345'. How can I help you today?",
+      "weight": 1.0,
+      "tags": [
+        "negative",
+        "numbers"
+      ],
+      "description": "Numbers input negative case"
+    },
+    {
+      "id": "greeting_neg_002",
+      "input": "!@#$%",
+      "expected_output": "Hello! I received your message: '!@#$%'. How can I help you today?",
+      "weight": 1.0,
+      "tags": [
+        "negative",
+        "symbols"
+      ],
+      "description": "Symbols input negative case"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created_by": "AutoPromptix",
+    "tags": [
+      "greeting",
+      "communication",
+      "basic"
+    ],
+    "total_cases": 7,
+    "average_weight": 1.1428571428571428,
+    "created_date": "2025-07-20T17:51:08.045297"
+  }
+}
