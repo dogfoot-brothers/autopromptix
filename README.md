@@ -291,7 +291,7 @@ print(f"Reason: {improvement.improvement_reason}")
 
 ## 📄 License
 
-MIT License - see LICENSE file for details.
+Apache 2.0 License - see LICENSE file for details.
 
 ## 🤝 Contributing
 
@@ -319,7 +319,7 @@ For issues and questions:
 - 🎯 Context manager for test configuration
 - 📊 Enhanced visual design and UX
 - 🔧 Improved API endpoints
-- 📄 License changed to MIT
+- 📄 License changed to Apache 2.0
 
 ### v0.1.0
 - Initial release
