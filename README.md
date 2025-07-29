@@ -1,329 +1,108 @@
 # AutoPromptix
 
-**Enhanced Automated Prompt Testing and Improvement Tool**
+AutoPromptix는 AI 함수의 자동 테스트 및 개선을 위한 프레임워크입니다.
 
-AutoPromptix is a comprehensive web-based server for testing and improving AI prompts automatically. It provides an enhanced decorator-based system for marking functions for testing and includes a beautiful web dashboard for monitoring and managing prompt improvements.
+## 🚀 빠른 시작
 
-## ✨ Features
+### Docker 기반 실행 (권장)
 
-- 🔄 **Automated Testing**: Run tests with different prompt configurations
-- 📊 **Prompt Analysis**: Parse and analyze system prompts for quality metrics
-- 🚀 **Prompt Improvement**: Automatically improve prompts based on test results
-- 📈 **Performance Tracking**: Track prompt performance over time
-- 🌐 **Enhanced Web Dashboard**: Beautiful web interface with real-time editing
-- 💾 **Local Storage**: Save knowledge, chat history, and improvement history locally
-- 🔧 **Enhanced Decorator-Based**: Easy integration with existing code using simplified decorators
-- 🎯 **A/B Testing**: Compare different prompt variants
-- 📝 **Real-time Prompt Editing**: Edit prompts directly in the web interface
-- 🎨 **Modern UI**: Beautiful, responsive design with real-time updates
+```bash
+# Windows
+cd docker
+.\run-docker-simple.bat enhanced
 
-## 🚀 Quick Start
-
-### 1. Add enhanced decorators to your functions
-
-```python
-import autopromptix
-import openai
-
-# Using the new unified decorator
-@autopromptix.test(
-    expected_output='./output.txt/@L31',
-    test_types=['system_prompt', 'temperature'],
-    client='openai',
-    max_iterations=5,
-    target_score=0.85,
-    auto_improve=True,
-    prompt_variations=[
-        "You are a helpful assistant.",
-        "You are a friendly and helpful assistant.",
-        "You are a professional assistant."
-    ]
-)
-def greeting():
-    response = openai.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Hello, how are you?"}
-        ]
-    )
-    return response.choices[0].message.content
-
-# Using auto_test for automatic prompt detection
-@autopromptix.auto_test
-def simple_greeting():
-    return "Hello, I'm doing well, thank you for asking!"
+# Linux/Mac
+cd docker
+./docker-run.sh enhanced
 ```
 
-### 2. Start the Enhanced AutoPromptix server
+### Python 직접 실행
 
-```python
-import autopromptix
+Docker가 없는 경우 Python으로 직접 실행:
 
-# Quick start
-autopromptix.quick_start(port=8000)
+```bash
+# Enhanced 서버 (권장)
+python enhanced_main.py
 
-# Or with custom settings
-autopromptix.start_server(
-    host='127.0.0.1',
-    port=8000,
-    api_model='gpt-4o-mini',
-    max_test_n=10
-)
+# 기본 서버
+python main.py
 ```
 
-### 3. Access the enhanced web dashboard
+## 🐳 Docker 설정
 
-Open your browser and navigate to `http://127.0.0.1:8000` to access the enhanced AutoPromptix dashboard.
+Docker 관련 파일들은 `docker/` 디렉토리에서 관리됩니다:
 
-## 🎯 Enhanced Decorators
-
-### @autopromptix.test
-Unified decorator for comprehensive testing:
-```python
-@autopromptix.test(
-    expected_output='./output.txt/@L31',
-    test_types=['system_prompt', 'temperature', 'top_k'],
-    client='openai',
-    max_iterations=10,
-    target_score=0.85,
-    auto_improve=True,
-    prompt_variations=[
-        "You are a helpful assistant.",
-        "You are a friendly assistant."
-    ]
-)
+```bash
+docker/
+├── README.md                    # Docker 설정 가이드
+├── Dockerfile.simple           # 단순화된 Dockerfile (권장)
+├── run-docker-simple.bat       # Windows용 실행 스크립트
+├── docker-run.sh               # Linux/Mac용 실행 스크립트
+└── ...
 ```
 
-### @autopromptix.auto_test
-Automatic prompt detection and testing:
-```python
-@autopromptix.auto_test
-def my_function():
-    # Prompts are automatically detected from source code
-    pass
+### Docker 실행 방법
+
+```bash
+# Windows
+cd docker
+.\run-docker-simple.bat enhanced
+
+# Linux/Mac
+cd docker
+./docker-run.sh enhanced
+
+# 직접 실행
+docker build -f docker/Dockerfile.simple -t autopromptix .
+docker run -d --name autopromptix-enhanced -p 8001:8001 autopromptix
 ```
 
-### @autopromptix.test_config
-Configuration file-based testing:
-```python
-@autopromptix.test_config('configs/my_function.yaml')
-def my_function():
-    pass
+## 📚 자세한 가이드
+
+- [빠른 시작 가이드](QUICK_START.md)
+- [Docker 문제 해결 가이드](DOCKER_TROUBLESHOOTING_GUIDE.md)
+- [테스트 가이드](TESTING_GUIDE.md)
+
+## 🌐 접속 방법
+
+실행 후 웹 브라우저에서 접속:
+- **Enhanced 서버**: http://127.0.0.1:8001
+- **기본 서버**: http://127.0.0.1:8000
+
+## 📦 설치
+
+### 요구사항
+- Python 3.8 이상
+- pip (Python 패키지 관리자)
+- Docker (권장)
+
+### 의존성 설치
+```bash
+pip install -r requirements.txt
 ```
 
-### @autopromptix.prompt_template
-Template-based prompt management:
-```python
-@autopromptix.prompt_template('templates/greeting.yaml')
-def greeting():
-    pass
+## 🔧 문제 해결
+
+### Docker 설치
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows/Mac)
+- [Docker Engine](https://docs.docker.com/engine/install/) (Linux)
+
+### Docker 문제 해결
+자세한 문제 해결 가이드는 [DOCKER_TROUBLESHOOTING_GUIDE.md](DOCKER_TROUBLESHOOTING_GUIDE.md)를 참조하세요.
+
+### 포트 충돌
+```bash
+# Windows
+taskkill /f /im python.exe
+
+# Linux/Mac
+pkill -f python
+
+# Docker 컨테이너 정리
+docker stop autopromptix-enhanced
+docker rm autopromptix-enhanced
 ```
 
-### autopromptix.test_context
-Context manager for test configuration:
-```python
-with autopromptix.test_context(
-    expected_output='./output.txt/@L31',
-    test_types=['system_prompt'],
-    auto_improve=True
-):
-    @autopromptix.test
-    def my_function():
-        pass
-```
+## 📄 라이선스
 
-## 🌐 Enhanced Web Dashboard Features
-
-### Real-time Prompt Editor
-- Edit prompts directly in the web interface
-- Test prompts instantly
-- Save and version control prompts
-- Auto-improve prompts with AI
-
-### A/B Testing Interface
-- Compare multiple prompt variants
-- Visual results comparison
-- Statistical analysis
-- Winner declaration
-
-### Enhanced Visual Design
-- Modern, responsive UI
-- Real-time updates
-- Beautiful animations
-- Mobile-friendly design
-
-## 📁 Configuration Files
-
-### Function Configuration (configs/greeting.yaml)
-```yaml
-expected_output: './output.txt/@L31'
-test_types: ['system_prompt', 'temperature']
-client: 'openai'
-max_iterations: 5
-target_score: 0.85
-auto_improve: true
-prompt_variations:
-  - "You are a helpful assistant."
-  - "You are a friendly and helpful assistant."
-  - "You are a professional assistant."
-```
-
-### Prompt Template (templates/greeting.yaml)
-```yaml
-name: "Greeting Assistant"
-description: "A friendly greeting assistant"
-category: "conversation"
-
-base_prompt: |
-  You are a helpful assistant.
-  Your role is to provide friendly and helpful responses.
-
-variations:
-  - name: "Friendly"
-    prompt: |
-      You are a friendly and helpful assistant.
-      Always be warm and welcoming in your responses.
-    
-  - name: "Professional"
-    prompt: |
-      You are a professional and helpful assistant.
-      Provide clear, concise, and accurate responses.
-
-test_cases:
-  - input: "Hello, how are you?"
-    expected: "Hello, I'm doing well, thank you for asking! How can I help you today?"
-    weight: 1.0
-```
-
-## 🔧 API Endpoints
-
-### Enhanced Functions
-- `GET /api/functions` - List all registered functions
-- `GET /api/functions/{id}` - Get function details
-- `POST /api/functions/{id}/test` - Run a single test
-- `POST /api/functions/{id}/auto-test` - Run automated tests with improvements
-- `GET /api/functions/{id}/prompt-editor` - Get prompt editor interface
-- `POST /api/functions/{id}/prompt-editor` - Update prompt
-- `POST /api/functions/{id}/ab-test` - Run A/B test between variants
-
-### Prompt Management
-- `POST /api/functions/{id}/analyze-prompt` - Analyze a prompt
-- `POST /api/functions/{id}/improve-prompt` - Improve a prompt
-
-### Results & Monitoring
-- `GET /api/functions/{id}/results` - Get test results
-- `GET /api/functions/{id}/improvements` - Get improvement history
-- `GET /api/functions/{id}/test-status` - Get test status
-
-### System
-- `GET /api/stats` - Get system statistics
-- `GET /api/settings` - Get/update settings
-- `GET /api/health` - Health check
-
-## 📊 Local Storage
-
-AutoPromptix stores data locally in the `autopromptix_data` directory:
-
-- `knowledge/` - Knowledge base and learned patterns
-- `chat_history/` - Chat history and interactions
-- `improvements/` - Prompt improvement history
-- `autopromptix.db` - SQLite database with test results and metadata
-
-## 🚀 Advanced Usage
-
-### Quick Start Functions
-```python
-# Quick start with default settings
-autopromptix.quick_start(port=8000)
-
-# Start from configuration file
-autopromptix.start_from_config('config/autopromptix.yaml')
-```
-
-### Manual Test Execution
-```python
-from autopromptix import test_runner
-
-# Run a single test
-result = test_runner.run_single_test(
-    function_id='main.greeting',
-    test_name='custom_test',
-    prompt='You are a friendly assistant.',
-    config={'temperature': 0.7}
-)
-
-print(f"Test score: {result.score}")
-```
-
-### Prompt Analysis
-```python
-from autopromptix import prompt_improver
-
-# Analyze a prompt
-analysis = prompt_improver.analyze_prompt(
-    "You are a helpful assistant. Please be concise."
-)
-
-print(f"Clarity score: {analysis.clarity_score}")
-print(f"Issues: {analysis.potential_issues}")
-```
-
-### Automated Improvement
-```python
-# Improve a prompt automatically
-improvement = prompt_improver.improve_prompt(
-    function_id='main.greeting',
-    original_prompt='You are a helpful assistant.',
-    improvement_type='clarity'
-)
-
-print(f"Improved prompt: {improvement.improved_prompt}")
-print(f"Reason: {improvement.improvement_reason}")
-```
-
-## 📋 Requirements
-
-- Python 3.7+
-- Flask 2.3.3+
-- OpenAI API key (if using OpenAI)
-- Modern web browser for dashboard
-
-## 📄 License
-
-Apache 2.0 License - see LICENSE file for details.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
-
-## 📞 Support
-
-For issues and questions:
-- GitHub Issues: https://github.com/autopromptix/autopromptix/issues
-- Documentation: https://autopromptix.readthedocs.io/
-
-## 📝 Changelog
-
-### v0.2.0 (Enhanced)
-- ✨ Enhanced decorator system with unified API
-- 🎨 Beautiful, modern web dashboard
-- 📝 Real-time prompt editing
-- 🧪 A/B testing interface
-- 🚀 Auto-test decorator for automatic prompt detection
-- 📁 Configuration file support
-- 🎯 Context manager for test configuration
-- 📊 Enhanced visual design and UX
-- 🔧 Improved API endpoints
-- 📄 License changed to Apache 2.0
-
-### v0.1.0
-- Initial release
-- Basic testing and improvement functionality
-- Web dashboard
-- Local storage system
-- Decorator-based integration 
+이 프로젝트는 MIT 라이선스 하에 배포됩니다. 
