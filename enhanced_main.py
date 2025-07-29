@@ -28,7 +28,7 @@ def main():
     
     # Initialize dashboard server
     dashboard = GoogleStyleDashboardServer(
-        host='127.0.0.1',
+        host='0.0.0.0',  # Changed from 127.0.0.1 to allow external access
         port=8001
     )
     

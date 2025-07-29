@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Enhanced AutoPromptix Server (Recommended)
+  autopromptix-enhanced:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.simple
+    ports:
+      - "8001:8001"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8001
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    volumes:
+      - autopromptix_data:/app/autopromptix_data
+      - test_data_pools:/app/test_data_pools
+    restart: unless-stopped
+    profiles:
+      - enhanced
+
+  # Basic AutoPromptix Server
+  autopromptix-basic:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.simple
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    volumes:
+      - autopromptix_data:/app/autopromptix_data
+      - test_data_pools:/app/test_data_pools
+    command: ["python", "main.py"]
+    restart: unless-stopped
+    profiles:
+      - basic
+
+  # Development Environment
+  autopromptix-dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.simple
+    ports:
+      - "8003:8001"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    volumes:
+      - ..:/app
+      - autopromptix_data:/app/autopromptix_data
+      - test_data_pools:/app/test_data_pools
+    command: ["python", "enhanced_main.py"]
+    restart: unless-stopped
+    profiles:
+      - development
+
+volumes:
+  autopromptix_data:
+  test_data_pools: 
