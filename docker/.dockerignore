@@ -58,9 +58,7 @@ test_data_pools/
 tests/
 
 # Documentation
-README.md
 LICENSE
-TESTING_GUIDE.md
 
 # Development files
 output.txt

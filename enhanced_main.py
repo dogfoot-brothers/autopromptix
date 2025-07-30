@@ -8,11 +8,16 @@ This script demonstrates the enhanced AutoPromptix system with:
 - User-friendly interface with tooltips
 """
 
-import os
 import sys
+import os
 from autopromptix.enhanced_decorators import autopromptix
-from autopromptix.google_dashboard_server import GoogleStyleDashboardServer
 from autopromptix.test_data_pool import create_greeting_test_pool, TestDataPoolManager
+
+# Add dashboard backend to path
+dashboard_backend = os.path.join(os.path.dirname(__file__), 'dashboard', 'backend')
+sys.path.insert(0, dashboard_backend)
+
+from server import DashboardServer
 
 def main():
     """Main function to run the enhanced AutoPromptix system"""
@@ -27,8 +32,8 @@ def main():
     test_data_manager.create_pool(greeting_pool)
     
     # Initialize dashboard server
-    dashboard = GoogleStyleDashboardServer(
-        host='0.0.0.0',  # Changed from 127.0.0.1 to allow external access
+    dashboard = DashboardServer(
+        host='0.0.0.0',  # Allow external access
         port=8001
     )
     
