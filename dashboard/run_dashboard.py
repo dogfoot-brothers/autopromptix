@@ -61,13 +61,8 @@ def main():
         print("Please run this script from the dashboard directory.")
         sys.exit(1)
     
-    if not (Path(__file__).parent / "frontend" / "package.json").exists():
-        print("❌ Error: frontend/package.json not found!")
-        print("Please ensure the frontend is properly set up.")
-        sys.exit(1)
-    
-    # Print frontend instructions
-    print_frontend_instructions()
+    # Frontend removed - using built-in HTML dashboard
+    print("📊 Using built-in HTML dashboard")
     
     # Start backend in a separate thread
     backend_thread = threading.Thread(target=run_backend, daemon=True)
@@ -76,10 +71,9 @@ def main():
     # Wait a moment for backend to start
     time.sleep(2)
     
-    print("\n🔄 Both servers should now be running:")
-    print("   Backend:  http://127.0.0.1:8001 (API)")
-    print("   Frontend: http://localhost:3000 (Development)")
-    print("\n Press Ctrl+C to stop the backend server.")
+    print("\n🔄 Dashboard is now running:")
+    print("   Backend:  http://127.0.0.1:8001 (API + Frontend)")
+    print("\n Press Ctrl+C to stop the server.")
     
     try:
         # Keep the main thread alive

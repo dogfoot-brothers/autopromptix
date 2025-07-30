@@ -7,18 +7,10 @@
 ```
 docker/
 ├── README.md                    # 이 파일
-├── Dockerfile                   # 원본 Dockerfile (멀티스테이지 빌드)
 ├── Dockerfile.simple           # 단순화된 Dockerfile (권장)
 ├── docker-compose.yml          # Docker Compose 설정
 ├── .dockerignore               # Docker 빌드 시 제외할 파일들
-├── quick-start.bat             # 빠른 시작 스크립트 (Windows)
-├── run-docker-simple.bat       # Windows용 Docker 실행 스크립트
-├── run-docker.bat              # Windows용 Docker 실행 스크립트 (원본)
-├── docker-run.sh               # Linux용 Docker 실행 스크립트
-├── docker-build.sh             # Linux용 Docker 빌드 스크립트
-├── docker-entrypoint.sh        # 컨테이너 진입점 스크립트
-├── docker-dashboard-entrypoint.sh # 대시보드 전용 진입점
-└── setup-docker.bat            # Windows용 Docker 설정 스크립트
+└── quick-start.bat             # 빠른 시작 스크립트 (Windows)
 ```
 
 ## 🚀 빠른 시작
@@ -29,35 +21,36 @@ docker/
 cd docker
 .\quick-start.bat
 
-# 또는 옵션 선택
+# 또는 직접 실행
 cd docker
-.\run-docker-simple.bat enhanced
+docker build -f Dockerfile.simple -t autopromptix ..
+docker run -d --name autopromptix-enhanced -p 8001:8001 autopromptix
 ```
 
 ### Linux/Mac에서 실행
 ```bash
-# 빌드 및 실행
+# 직접 실행
 cd docker
-./docker-build.sh
-./docker-run.sh
-
-# 또는 직접 실행
-docker build -f docker/Dockerfile.simple -t autopromptix ..
+docker build -f Dockerfile.simple -t autopromptix ..
 docker run -d --name autopromptix-enhanced -p 8001:8001 autopromptix
+
+# 또는 Docker Compose 사용
+cd docker
+docker-compose up -d
 ```
 
 ### Docker Compose 사용
 ```bash
-# Enhanced 서버 실행
+# 기본 실행
 cd docker
-docker-compose --profile enhanced up -d
+docker-compose up -d
 
-# Basic 서버 실행
-docker-compose --profile basic up -d
-
-# 개발 환경 실행
-docker-compose --profile development up -d
+# 백그라운드 실행
+cd docker
+docker-compose up -d
 ```
+
+
 
 ## Dockerfile 비교
 
@@ -67,16 +60,11 @@ docker-compose --profile development up -d
 - ✅ 안정적인 실행
 - ✅ 문제 해결됨
 
-### Dockerfile (원본)
-- ⚠️ 멀티스테이지 빌드
-- ⚠️ 복잡한 구조
-- ❌ README.md 의존성 문제
+
 
 ## 포트 설정
 
-- **Enhanced 서버**: 8001
-- **Basic 서버**: 8000
-- **개발 환경**: 8003
+- **AutoPromptix 서버**: 8001
 
 ## 접속 URL
 
@@ -85,7 +73,25 @@ docker-compose --profile development up -d
 
 ## 문제 해결
 
-자세한 문제 해결 가이드는 상위 디렉토리의 `DOCKER_TROUBLESHOOTING_GUIDE.md`를 참조하세요.
+Docker 관련 문제는 다음을 확인하세요:
+
+### 일반적인 문제들
+1. **Docker Desktop이 실행되지 않는 경우**
+   - Windows 기능에서 "Virtual Machine Platform" 활성화
+   - BIOS에서 가상화 기능 활성화
+   - Docker Desktop 재시작
+
+2. **포트 충돌**
+   ```bash
+   # 기존 컨테이너 정리
+   docker stop autopromptix-enhanced
+   docker rm autopromptix-enhanced
+   ```
+
+3. **빌드 실패**
+   - Docker Desktop이 실행 중인지 확인
+   - 충분한 디스크 공간 확보
+   - 네트워크 연결 확인
 
 ## 유용한 명령어
 
