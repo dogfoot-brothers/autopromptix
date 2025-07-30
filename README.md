@@ -37,9 +37,8 @@ AutoPromptix는 단순화된 아키텍처를 사용합니다:
 
 ```
 dashboard/
-├── backend/                    # Flask API 서버
-│   └── server.py              # API 엔드포인트 + HTML 대시보드
-└── run_dashboard.py           # 개발용 실행 스크립트
+└── backend/                    # Flask API 서버
+    └── server.py              # API 엔드포인트 + HTML 대시보드
 ```
 
 ## 🐳 Docker 설정

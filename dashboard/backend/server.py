@@ -20,7 +20,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from autopromptix.storage import StorageManager
 from autopromptix.prompt_improver import PromptImprover
 from autopromptix.test_runner import TestRunner, TestResult
-from autopromptix.enhanced_decorators import get_test_registry, get_function_metadata
+from autopromptix.decorators import get_test_registry, get_function_metadata
 from autopromptix.test_data_pool import TestDataPoolManager, TestDataPool, TestCase
 
 class DashboardServer:
