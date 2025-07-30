@@ -12,7 +12,7 @@ from .decorators import (
     self_test_k,
     client
 )
-from .enhanced_decorators import (
+from .decorators import (
     test,
     test_config,
     prompt_template,

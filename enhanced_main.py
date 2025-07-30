@@ -10,7 +10,7 @@ This script demonstrates the enhanced AutoPromptix system with:
 
 import sys
 import os
-from autopromptix.enhanced_decorators import autopromptix
+from autopromptix.decorators import autopromptix
 from autopromptix.test_data_pool import create_greeting_test_pool, TestDataPoolManager
 
 # Add dashboard backend to path
