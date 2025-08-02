@@ -242,9 +242,9 @@ class DashboardServer:
         self.server_thread.daemon = True
         self.server_thread.start()
         
-        print(f"🚀 AutoPromptix Dashboard API Server running on http://{self.host}:{self.port}")
-        print(f"📱 Frontend should be served separately on port 3000")
-        print(f"🔗 API endpoints available at http://{self.host}:{self.port}/api/*")
+        print(f"AutoPromptix Dashboard API Server running on http://{self.host}:{self.port}")
+        print(f"Frontend should be served separately on port 3000")
+        print(f"API endpoints available at http://{self.host}:{self.port}/api/*")
     
     def stop(self):
         """Stop the server"""
