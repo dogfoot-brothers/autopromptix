@@ -1,0 +1,51 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+docs/
+*.md
+
+# Development files
+.vscode/
+.idea/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Test files
+tests/
+test_*.py
+*_test.py
+.pytest_cache/
+
+# Docker files
+docker/
+Dockerfile*
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp 
