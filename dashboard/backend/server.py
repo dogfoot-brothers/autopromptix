@@ -267,5 +267,5 @@ if __name__ == '__main__':
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print("\n⛔ Shutting down dashboard server...")
-        server.stop() 
+        print("\nShutting down dashboard server...")
+        server.stop()
