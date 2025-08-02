@@ -284,3 +284,10 @@ build/
 # Package manager lock files (if not committing them)
 # package-lock.json
 # yarn.lock
+
+### AI Development Tools ###
+# Claude Code settings and local files
+.claude/
+
+# Cursor AI settings and local files
+.cursor/
