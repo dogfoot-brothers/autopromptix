@@ -1,0 +1,27 @@
+[flake8]
+max-line-length = 88
+max-complexity = 10
+exclude = 
+    .git,
+    __pycache__,
+    dashboard/frontend,
+    *.egg-info,
+    .venv,
+    venv,
+    .tox,
+    build,
+    dist
+
+ignore = 
+    W291,
+    W292,
+    W293,
+    F401,
+    F841,
+    E128,
+    E302,
+    E305,
+    E501,
+    E731
+
+select = E9,F63,F7,F82

@@ -291,3 +291,22 @@ build/
 
 # Cursor AI settings and local files
 .cursor/
+
+# GitHub Copilot settings
+.copilot/
+
+# Tabnine settings
+.tabnine/
+
+# CodeWhisperer settings
+.codewhisperer/
+
+# Replit settings
+.replit/
+
+# Codium AI settings
+.codium/
+
+# Other AI assistant configurations
+.ai/
+.assistant/
