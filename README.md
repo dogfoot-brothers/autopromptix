@@ -1,121 +1,125 @@
 # AutoPromptix
 
-AutoPromptix는 AI 함수의 자동 테스트 및 개선을 위한 프레임워크입니다.
+Automated Prompt Testing and Improvement Tool with Layered Architecture
 
-## 🚀 빠른 시작
+## 🏗️ Architecture
 
-### Docker 기반 실행 (권장)
+AutoPromptix follows a clean layered architecture:
 
+```
+autopromptix/
+├── core/                    # Domain Layer (Business Logic)
+│   ├── decorators.py       # Prompt decorators
+│   ├── storage.py          # Data storage
+│   ├── prompt_improver.py  # Prompt improvement
+│   └── test_runner.py      # Test execution
+├── api/                     # Presentation Layer (REST API)
+│   └── server.py           # API endpoints
+├── dashboard/               # UI Layer (Web Interface)
+│   └── backend/
+│       └── server.py       # Web UI server
+└── docker/                  # Deployment
+    ├── Dockerfile
+    └── docker-compose.yml
+```
+
+## 🚀 Quick Start
+
+### Using Python Runner
 ```bash
-# Windows
-cd docker
-.\quick-start.bat
+# Run full system (API + Dashboard)
+python run.py
 
-# Linux/Mac
-cd docker
-docker build -f Dockerfile.simple -t autopromptix ..
-docker run -d --name autopromptix-enhanced -p 8001:8001 autopromptix
+# Run API only
+python run.py --mode api
+
+# Run Dashboard only (requires API running)
+python run.py --mode dashboard
 ```
 
-### Python 직접 실행
-
-Docker가 없는 경우 Python으로 직접 실행:
-
+### Using Docker
 ```bash
-# Enhanced 서버 (권장)
-python enhanced_main.py
-```
-
-## 🌐 접속
-
-실행 후 웹 브라우저에서 다음 URL로 접속:
-**http://127.0.0.1:8001**
-
-## 🏗️ 아키텍처
-
-AutoPromptix는 단순화된 아키텍처를 사용합니다:
-
-```
-dashboard/
-└── backend/                    # Flask API 서버
-    └── server.py              # API 엔드포인트 + HTML 대시보드
-```
-
-## 🐳 Docker 설정
-
-Docker 관련 파일들은 `docker/` 디렉토리에서 관리됩니다:
-
-```bash
-docker/
-├── README.md                    # Docker 설정 가이드
-├── Dockerfile.simple           # 단순화된 Dockerfile (권장)
-├── quick-start.bat             # Windows용 빠른 시작 스크립트
-├── docker-compose.yml          # Docker Compose 설정
-└── ...
-```
-
-### Docker 실행 방법
-
-```bash
-# Windows
+# Build and run with Docker
 cd docker
-.\quick-start.bat
+docker-compose up --build
 
-# Linux/Mac
-cd docker
-docker build -f Dockerfile.simple -t autopromptix ..
-docker run -d --name autopromptix-enhanced -p 8001:8001 autopromptix
-
-# Docker Compose 사용
-cd docker
-docker-compose up -d
+# Access Dashboard: http://localhost:8001
+# Access API: http://localhost:8000
 ```
 
-## 📚 자세한 가이드
+## 📋 Features
 
-- [Docker 설정 가이드](docker/README.md)
-- [Docker 빠른 시작](docker/quick-start.bat)
+### Core Layer
+- **Decorators**: Easy-to-use prompt testing decorators
+- **Storage**: Persistent data management
+- **Prompt Improvement**: Automated prompt optimization
+- **Test Runner**: Comprehensive test execution
 
-## 🌐 접속 방법
+### API Layer
+- **REST API**: Full REST API for core functionality
+- **JSON Responses**: Structured data exchange
+- **CORS Support**: Cross-origin resource sharing
 
-실행 후 웹 브라우저에서 접속:
-- **Enhanced 서버**: http://127.0.0.1:8001
-- **기본 서버**: http://127.0.0.1:8000
+### Dashboard Layer
+- **Web UI**: Modern web interface
+- **Real-time Monitoring**: Live function tracking
+- **Test Data Management**: Visual test pool management
 
-## 📦 설치
+## 🔧 Development
 
-### 요구사항
-- Python 3.8 이상
-- pip (Python 패키지 관리자)
-- Docker (권장)
+### Prerequisites
+- Python 3.7+
+- Docker (optional)
 
-### 의존성 설치
+### Installation
 ```bash
 pip install -r requirements.txt
 ```
 
-## 🔧 문제 해결
-
-### Docker 설치
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows/Mac)
-- [Docker Engine](https://docs.docker.com/engine/install/) (Linux)
-
-### Docker 문제 해결
-자세한 문제 해결 가이드는 [docker/README.md](docker/README.md)를 참조하세요.
-
-### 포트 충돌
+### Running Tests
 ```bash
-# Windows
-taskkill /f /im python.exe
+# Install dev dependencies
+pip install -e .[dev]
 
-# Linux/Mac
-pkill -f python
-
-# Docker 컨테이너 정리
-docker stop autopromptix-enhanced
-docker rm autopromptix-enhanced
+# Run tests
+pytest
 ```
 
-## 📄 라이선스
+## 📖 Usage
 
-이 프로젝트는 MIT 라이선스 하에 배포됩니다. 
+### Basic Decorator Usage
+```python
+from core import autopromptix
+
+@autopromptix(
+    role="assistant",
+    temperature=0.7,
+    max_tokens=100
+)
+def greeting(message: str) -> str:
+    """Generate a friendly greeting response"""
+    return f"Hello! {message} How can I help you today?"
+```
+
+### API Endpoints
+- `GET /api/functions` - List all registered functions
+- `GET /api/test-pools` - List test data pools
+- `POST /api/test-pools` - Create new test pool
+- `GET /api/stats` - System statistics
+
+## 🐳 Docker
+
+### Development
+```bash
+docker-compose -f docker/docker-compose.yml up --build
+```
+
+### Production
+```bash
+docker build -f docker/Dockerfile -t autopromptix .
+docker run -p 8000:8000 -p 8001:8001 autopromptix
+```
+
+## 📝 License
+
+Apache License 2.0 - see [LICENSE](LICENSE) for details. 

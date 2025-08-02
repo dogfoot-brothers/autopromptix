@@ -1,9 +1,11 @@
+version: '3.8'
+
 services:
-  # AutoPromptix Server
+  # AutoPromptix Server (Optimized)
   autopromptix:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.simple
+      dockerfile: docker/Dockerfile
     ports:
       - "8001:8001"
     environment:

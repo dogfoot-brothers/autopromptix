@@ -44,10 +44,14 @@ setup(
             "flake8>=3.8",
             "mypy>=0.812",
         ],
-    },
-    entry_points={
-        "console_scripts": [
-            "autopromptix=autopromptix.cli:main",
+        "api": [
+            "flask>=2.0",
+            "flask-cors>=3.0",
+            "requests>=2.25",
+        ],
+        "dashboard": [
+            "flask>=2.0",
+            "flask-cors>=3.0",
         ],
     },
     include_package_data=True,
