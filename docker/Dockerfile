@@ -36,6 +36,7 @@ COPY test_data_pools/ ./test_data_pools/
 
 # Copy setup files
 COPY setup.py .
+COPY run.py .
 
 # Create non-root user
 RUN useradd --create-home --shell /bin/bash autopromptix && \
@@ -45,5 +46,5 @@ USER autopromptix
 # Expose ports
 EXPOSE 8000 8001
 
-# Default command - start both API and Dashboard
-CMD ["python", "-c", "import sys; sys.path.append('.'); from api.server import APIServer; from dashboard.backend.server import DashboardServer; import threading; import time; api = APIServer(host='0.0.0.0', port=8000); dashboard = DashboardServer(host='0.0.0.0', port=8001, api_url='http://localhost:8000'); api.start(); dashboard.start(); print('🚀 AutoPromptix running on ports 8000 (API) and 8001 (Dashboard)'); [time.sleep(1) for _ in iter(int, 1)]"] 
+# Default command - use the run.py script
+CMD ["python", "run.py", "--host", "0.0.0.0"] 

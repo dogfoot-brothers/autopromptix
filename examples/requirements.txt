@@ -1,0 +1,5 @@
+# Additional requirements for running the examples
+
+# SocketIO client for WebSocket demos
+python-socketio[asyncio_client]==5.10.0
+aiohttp==3.9.1
