@@ -2,7 +2,7 @@
 """
 AutoPromptix Runner
 
-Unified runner for the layered architecture.
+Unified runner for the AutoPromptix platform.
 """
 
 import sys
@@ -13,9 +13,6 @@ import time
 
 # Add current directory to path
 sys.path.append('.')
-
-from api.server import APIServer
-from dashboard.backend.server import DashboardServer
 
 def main():
     """Main runner function"""
@@ -37,12 +34,14 @@ def main():
 
 def run_api_only(host, port):
     """Run API server only"""
-    print(f"🚀 Starting API server on {host}:{port}")
+    print(f"🚀 Starting AutoPromptix API server on {host}:{port}")
+    from api.server import APIServer
     
     api_server = APIServer(host=host, port=port)
     api_server.start()
     
     print(f"🌐 API server running at http://{host}:{port}")
+    print(f"🔌 WebSocket endpoint: ws://{host}:{port}/socket.io/")
     print("⏹️  Press Ctrl+C to stop")
     
     try:
@@ -58,6 +57,7 @@ def run_dashboard_only(host, port):
     print(f"🚀 Starting Dashboard on {host}:{port}")
     print("⚠️  Make sure API server is running on port 8000")
     
+    from dashboard.backend.server import DashboardServer
     dashboard = DashboardServer(host=host, port=port, api_url='http://localhost:8000')
     dashboard.start()
     
@@ -78,22 +78,26 @@ def run_full_system(host, api_port, dashboard_port):
     print("=" * 50)
     
     # Start API server
+    from api.server import APIServer
     api_server = APIServer(host=host, port=api_port)
     api_server.start()
     print(f"✅ API server started on http://{host}:{api_port}")
+    print(f"   WebSocket: ws://{host}:{api_port}/socket.io/")
     
     # Start Dashboard
+    from dashboard.backend.server import DashboardServer
     dashboard = DashboardServer(host=host, port=dashboard_port, api_url=f'http://localhost:{api_port}')
     dashboard.start()
     print(f"✅ Dashboard started on http://{host}:{dashboard_port}")
     
     print("=" * 50)
     print("🎯 System Features:")
-    print("   • Core: Business logic and decorators")
-    print("   • API: REST API endpoints")
+    print("   • Core: Automated prompt testing framework")
+    print("   • API: REST endpoints + WebSocket streaming")
+    print("   • Optimization: AI-powered prompt optimization")
     print("   • Dashboard: Web UI interface")
-    print("🌐 Access Dashboard at: http://localhost:8001")
-    print("🌐 Access API at: http://localhost:8000")
+    print(f"🌐 Access Dashboard at: http://localhost:{dashboard_port}")
+    print(f"🌐 Access API at: http://localhost:{api_port}")
     print("⏹️  Press Ctrl+C to stop")
     
     try:
@@ -106,4 +110,4 @@ def run_full_system(host, api_port, dashboard_port):
         print("✅ AutoPromptix stopped")
 
 if __name__ == "__main__":
-    main() 
+    main()

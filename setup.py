@@ -11,7 +11,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="autopromptix",
-    version="0.1.0",
+    version="1.0.0",
     author="AutoPromptix Team",
     author_email="team@autopromptix.com",
     description="Automated Prompt Testing and Improvement Tool",
@@ -47,11 +47,20 @@ setup(
         "api": [
             "flask>=2.0",
             "flask-cors>=3.0",
+            "flask-socketio>=5.0",
+            "python-socketio>=5.0",
+            "eventlet>=0.33",
             "requests>=2.25",
         ],
         "dashboard": [
             "flask>=2.0",
             "flask-cors>=3.0",
+        ],
+        "ai": [
+            "openai>=1.0",
+            "anthropic>=0.8",
+            "rapidfuzz>=3.0",
+            "rouge-score>=0.1",
         ],
     },
     include_package_data=True,
